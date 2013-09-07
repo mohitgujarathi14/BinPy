@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>PyIC by mrsud</title>
+    <title>BinPy by mrsud</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -17,19 +17,19 @@
   <body>
 
       <header>
-        <h1>PyIC</h1>
+        <h1>BinPy</h1>
         <p>Virtualizing Electronics</p>
       </header>
 
       <div id="banner">
         <span id="logo"></span>
 
-        <a href="https://github.com/mrsud/PyIC" class="button fork"><strong>View On GitHub</strong></a>
+        <a href="https://github.com/mrsud/BinPy" class="button fork"><strong>View On GitHub</strong></a>
         <div class="downloads">
           <span>Downloads:</span>
           <ul>
-            <li><a href="https://github.com/mrsud/PyIC/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/mrsud/PyIC/tarball/master" class="button">TAR</a></li>
+            <li><a href="https://github.com/mrsud/BinPy/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/mrsud/BinPy/tarball/master" class="button">TAR</a></li>
           </ul>
         </div>
       </div><!-- end banner -->
@@ -40,14 +40,14 @@
       </nav>
       <section>
         <h1>
-<a name="pyic" class="anchor" href="#pyic"><span class="octicon octicon-link"></span></a>PyIC</h1>
+<a name="binpy" class="anchor" href="#binpy"><span class="octicon octicon-link"></span></a>BinPy</h1>
 
-<p>This package will serve as a base to develop circuit based applications or logical games on top of it. This package does not depend on any libraries other that pure Python</p>
+<p>This package will serve as a base to develop circuit based applications or logical games on top of it. This package does not depend on any external libraries other that pure Python</p>
 
 <h2>
 <a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h2>
 
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">PyIC</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">binpy</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">gates</span> <span class="o">=</span> <span class="n">Gates</span><span class="p">()</span>
 <span class="k">print</span> <span class="n">gates</span><span class="o">.</span><span class="n">XOR</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -75,27 +75,16 @@
 <li>Adder</li>
 <li>Subtractor</li>
 <li>Multiplyer</li>
-<li>MUX
-
-<ul>
-<li>2:1</li>
-<li>4:1</li>
-<li>8:1</li>
-<li>16:1</li>
-</ul>
-</li>
-<li>DMUX
-
-<ul>
-<li>1:2</li>
-<li>1:4</li>
-<li>1:8</li>
-<li>1:16</li>
-</ul>
-</li>
+<li>MUX (2:1, 4:1, 8:1, 16:1)</li>
+<li>DMUX</li>
 <li>Decoder</li>
 </ul>
 </li>
+</ul><h2>
+<a name="future-works" class="anchor" href="#future-works"><span class="octicon octicon-link"></span></a>Future Works</h2>
+
+<ul>
+<li>Adding all ICs</li>
 </ul>
       </section>
       <footer>
