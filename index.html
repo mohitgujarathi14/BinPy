@@ -47,9 +47,56 @@ This package does not depend on any external library other than pure Python.</p>
 <h2>
 <a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h2>
 
+<p>Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/R-S_mk2.gif" alt="SR latch | Source: Wikipedia"></p>
+
 <div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">BinPy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">gates</span> <span class="o">=</span> <span class="n">Gates</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">gates</span><span class="o">.</span><span class="n">XOR</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">myClock1</span> <span class="o">=</span> <span class="n">Clock</span><span class="p">(</span><span class="n">time_period</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'MyClock1'</span><span class="p">)</span>
+<span class="n">myClock2</span> <span class="o">=</span> <span class="n">Clock</span><span class="p">(</span><span class="n">time_period</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'MyClock2'</span><span class="p">,</span> <span class="n">init_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">NOR1</span> <span class="o">=</span> <span class="n">Nor</span><span class="p">(</span><span class="s">'NOR1'</span><span class="p">)</span>  <span class="c">#First NOR gate</span>
+<span class="n">NOR2</span> <span class="o">=</span> <span class="n">Nor</span><span class="p">(</span><span class="s">'NOR2'</span><span class="p">)</span>  <span class="c">#Second NOR gate</span>
+
+<span class="n">NOR1</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">NOR2</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>  <span class="c">#Connecting input of first NOR with output of second NOR</span>
+<span class="n">NOR2</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">NOR1</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>  <span class="c">#Connecting input of second NOR with output of first NOR</span>
+<span class="n">myClock1</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">NOR1</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>  <span class="c">#Connecting output of myClock1 which is 'R' with input of first NOR</span>
+<span class="n">myClock2</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">NOR2</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>  <span class="c">#Connecting output of myClock2 which is 'S' with input of second NOR</span>
+<span class="n">myClock1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">myClock2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">'S:'</span><span class="p">,</span><span class="n">myClock2</span><span class="o">.</span><span class="n">getState</span><span class="p">(),</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span><span class="s">'R:'</span><span class="p">,</span><span class="n">myClock1</span><span class="o">.</span><span class="n">getState</span><span class="p">(),</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span><span class="s">'Q:'</span><span class="p">,</span> <span class="n">NOR1</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">getState</span><span class="p">(),</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">,</span><span class="s">'Q</span><span class="se">\'</span><span class="s">:'</span><span class="p">,</span><span class="n">NOR2</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+<p><strong>Output</strong></p>
+
+<div class="highlight highlight-python"><pre><span class="n">S</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">None</span>     <span class="n">Q</span><span class="s">': None</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': True</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': True</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': True</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': False</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">0</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">True</span>     <span class="n">Q</span><span class="s">': True</span>
+<span class="n">S</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">R</span><span class="p">:</span> <span class="mi">1</span>    <span class="n">Q</span><span class="p">:</span> <span class="bp">False</span>    <span class="n">Q</span><span class="s">': False</span>
+
+</pre></div>
+
+<p><strong>Operations, Combinatonal Logic and Algorithms</strong></p>
+
+<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">BinPy</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c">#Operations</span>
 <span class="n">operator</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">()</span>
@@ -80,8 +127,7 @@ This package does not depend on any external library other than pure Python.</p>
 
 <p><strong>Output</strong><br></p>
 
-<div class="highlight highlight-python"><pre><span class="mi">1</span>
-<span class="p">{</span><span class="s">'carry'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">'sum'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span>
+<div class="highlight highlight-python"><pre><span class="p">{</span><span class="s">'carry'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">'sum'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span>
 <span class="p">{</span><span class="s">'carry'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'difference'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span>
 <span class="n">MUX</span> <span class="n">Out</span><span class="p">:</span>  <span class="mi">0</span>
 <span class="n">IC_7400</span> <span class="n">Out</span><span class="p">:</span>  <span class="p">{</span><span class="mi">8</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
@@ -100,8 +146,10 @@ This package does not depend on any external library other than pure Python.</p>
 <ul>
 <li>Adder</li>
 <li>Subtractor</li>
-<li>Multiplyer</li>
+<li>Multiplier</li>
 <li>MUX (2:1, 4:1, 8:1, 16:1)</li>
+<li>DEMUX (1:2, 1:4, 1:8, 1:16)</li>
+<li>Encoder</li>
 </ul>
 </li>
 <li>
@@ -119,6 +167,17 @@ This package does not depend on any external library other than pure Python.</p>
 <li>741G04</li>
 <li>7405</li>
 <li>741G05</li>
+<li>7408</li>
+<li>741G08</li>
+<li>7410</li>
+<li>7411</li>
+<li>7442</li>
+<li>7443</li>
+<li>7444</li>
+<li>7451</li>
+<li>7454</li>
+<li>7455</li>
+<li>7458</li>
 </ul>
 </li>
 <li>
