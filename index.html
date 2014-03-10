@@ -7,42 +7,56 @@
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
+    <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
     <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
   </head>
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/BinPy/BinPy">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/BinPy/BinPy/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/BinPy/BinPy/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+
+      <header>
+        <h1>BinPy</h1>
+        <p>Virtualizing Electronics</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/BinPy/BinPy" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/BinPy/BinPy/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/BinPy/BinPy/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
 
     <div class="wrapper">
-
+      <nav>
+        <ul></ul>
+      </nav>
       <section>
-        <div id="title">
-          <h1>BinPy</h1>
-          <p>Virtualizing Electronics</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/BinPy">BinPy</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+        <h1>
+<a name="binpy" class="anchor" href="#binpy"><span class="octicon octicon-link"></span></a><a href="http://binpy.github.io/">BinPy</a>
+</h1>
 
-        <h2>
+<p><a href="https://travis-ci.org/BinPy/BinPy"><img src="https://travis-ci.org/BinPy/BinPy.png?branch=develop" alt="Build Status"></a></p>
+
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#resources">Available Resources</a></li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#contribute">Contribute</a></li>
+</ul><p><a></a></p>
+
+<h2>
 <a name="what-is-binpy" class="anchor" href="#what-is-binpy"><span class="octicon octicon-link"></span></a>What is BinPy?</h2>
 
-<p>This package will serve as a base to develop circuit based applications or logical games on top of it. 
-This package does not depend on any external library other than pure Python.</p>
+<p>It is a library which will serve as a base to develop circuit based applications and educational software on top of it. BinPy is a clear representation of fundamentals. Everything has been written from scratch such as gates, logical operations, etc. This package does not depend on any external library other than pure Python. It aims to extend the hardware programming concepts to Python.</p>
 
 <h2>
 <a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h2>
@@ -50,7 +64,8 @@ This package does not depend on any external library other than pure Python.</p>
 <p>Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/R-S_mk2.gif" alt="SR latch | Source: Wikipedia"></p>
 
-<div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">BinPy</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight highlight-python"><pre>
+<span class="kn">from</span> <span class="nn">BinPy</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">NOR1</span> <span class="o">=</span> <span class="n">Nor</span><span class="p">(</span><span class="s">'NOR1'</span><span class="p">)</span>  <span class="c">#First NOR gate</span>
 <span class="n">NOR2</span> <span class="o">=</span> <span class="n">Nor</span><span class="p">(</span><span class="s">'NOR2'</span><span class="p">)</span>  <span class="c">#Second NOR gate</span>
@@ -73,6 +88,8 @@ This package does not depend on any external library other than pure Python.</p>
 
 <span class="n">NOR1</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="n">NOR2</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c">#Invalid state</span>
 <span class="k">print</span> <span class="s">'Q: '</span><span class="p">,</span><span class="n">NOR2</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">getState</span><span class="p">(),</span> <span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">,</span><span class="s">'Q</span><span class="se">\'</span><span class="s">: '</span><span class="p">,</span><span class="n">NOR1</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span>
+
+
 </pre></div>
 
 <p><strong>Output</strong></p>
@@ -80,7 +97,7 @@ This package does not depend on any external library other than pure Python.</p>
 <div class="highlight highlight-python"><pre><span class="n">Q</span><span class="p">:</span>  <span class="bp">True</span>    <span class="n">Q</span><span class="s">':  False</span>
 <span class="n">Q</span><span class="p">:</span>  <span class="bp">False</span>   <span class="n">Q</span><span class="s">':  True</span>
 <span class="n">Q</span><span class="p">:</span>  <span class="bp">False</span>   <span class="n">Q</span><span class="s">':  True</span>
-<span class="n">Q</span><span class="p">:</span>  <span class="bp">False</span>   <span class="n">Q</span><span class="s">':  False</span>
+<span class="n">Q</span><span class="p">:</span>  <span class="bp">False</span>   <span class="n">Q</span><span class="s">':  False  #Invalid State</span>
 </pre></div>
 
 <p><strong>Operations, Combinatonal Logic and Algorithms</strong></p>
@@ -88,19 +105,30 @@ This package does not depend on any external library other than pure Python.</p>
 <div class="highlight highlight-python"><pre><span class="kn">from</span> <span class="nn">BinPy</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c">#Operations</span>
-<span class="n">operator</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">()</span>
-<span class="k">print</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="k">print</span> <span class="n">operator</span><span class="o">.</span><span class="n">subtract</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">operator</span> <span class="o">=</span> <span class="n">Operations</span><span class="p">()</span>
+<span class="n">operator</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="mi">1011</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">operator</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="mi">1011</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">operator</span><span class="o">.</span><span class="n">COMP</span><span class="p">(</span><span class="s">'0011'</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c">#Second argument chooses betweem 1's or 2's Compliment</span>
+
 
 <span class="c">#Combinational Logic</span>
-<span class="n">myMUX</span> <span class="o">=</span> <span class="n">MUX</span><span class="p">()</span>
-<span class="k">print</span> <span class="s">"MUX Out: "</span><span class="p">,</span> <span class="n">myMUX</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">MUX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">selectLines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"MUX Out: "</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
 
-<span class="c">#Algorithms </span>
-<span class="c">#Includes the Quine-McCluskey algorithm for solving K-Maps</span>
-<span class="n">FinalEquation</span> <span class="o">=</span> <span class="n">QM</span><span class="p">([</span><span class="s">'A'</span><span class="p">,</span><span class="s">'B'</span><span class="p">])</span>
-<span class="k">print</span> <span class="s">"Minimized Boolean Equation : "</span> <span class="p">,</span> <span class="n">FinalEquation</span><span class="o">.</span><span class="n">get_function</span><span class="p">(</span><span class="n">qm</span><span class="o">.</span><span class="n">solve</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[])[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">DEMUX</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">selectLines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"DEMUX Out: "</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
 
+<span class="n">d</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"Decoder Out: "</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">Encoder</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"Encoder Out: "</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
+
+<span class="c">#Sequential Circuits</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">DFlipFlop</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"DFlipFlop Out: "</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
 
 <span class="c">#IC</span>
 <span class="n">myIC</span> <span class="o">=</span> <span class="n">IC_7400</span><span class="p">()</span>
@@ -112,17 +140,36 @@ This package does not depend on any external library other than pure Python.</p>
 <span class="n">p</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="mi">14</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
 <span class="n">myIC1</span><span class="o">.</span><span class="n">setIC</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="k">print</span> <span class="s">"IC_7401 Out: "</span><span class="p">,</span> <span class="n">myIC1</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c">#Algorithms </span>
+<span class="c">#Includes the Quine-McCluskey algorithm for solving K-Maps</span>
+<span class="n">FinalEquation</span> <span class="o">=</span> <span class="n">QM</span><span class="p">([</span><span class="s">'A'</span><span class="p">,</span><span class="s">'B'</span><span class="p">])</span>
+<span class="k">print</span> <span class="s">"Minimized Boolean Equation : "</span> <span class="p">,</span> <span class="n">FinalEquation</span><span class="o">.</span><span class="n">get_function</span><span class="p">(</span><span class="n">qm</span><span class="o">.</span><span class="n">solve</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[])[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
 <p><strong>Output</strong><br></p>
 
 <div class="highlight highlight-python"><pre><span class="p">{</span><span class="s">'carry'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">'sum'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span>
 <span class="p">{</span><span class="s">'carry'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'difference'</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span>
-<span class="n">MUX</span> <span class="n">Out</span><span class="p">:</span>  <span class="mi">0</span>
+<span class="n">MUX</span> <span class="n">Out</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">DEMUX</span> <span class="n">Out</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">Decoder</span> <span class="n">Out</span><span class="p">:</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">Encoder</span> <span class="n">Out</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">DFlipFlop</span> <span class="n">Out</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">IC_7400</span> <span class="n">Out</span><span class="p">:</span>  <span class="p">{</span><span class="mi">8</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 <span class="n">IC_7401</span> <span class="n">Out</span><span class="p">:</span>  <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 <span class="n">Minimized</span> <span class="n">Boolean</span> <span class="n">Equation</span> <span class="p">:</span> <span class="p">((</span><span class="n">NOT</span> <span class="n">B</span><span class="p">)</span> <span class="n">OR</span> <span class="p">(</span><span class="n">NOT</span> <span class="n">A</span><span class="p">))</span>
 </pre></div>
+
+<p>BinPy also comes with a console that is a simple  wrapper around the classic python console from which you can directly use the BinPy Resources.</p>
+
+<p>To start it, simply issue:</p>
+
+<p>$ binpy</p>
+
+<p>if BinPy is installed in your path.</p>
+
+<p><a></a></p>
 
 <h2>
 <a name="available-resources" class="anchor" href="#available-resources"><span class="octicon octicon-link"></span></a>Available Resources</h2>
@@ -133,40 +180,88 @@ This package does not depend on any external library other than pure Python.</p>
 <p>Combinational logics</p>
 
 <ul>
-<li>Adder</li>
-<li>Subtractor</li>
-<li>Multiplier</li>
-<li>MUX (2:1, 4:1, 8:1, 16:1)</li>
-<li>DEMUX (1:2, 1:4, 1:8, 1:16)</li>
+<li>MUX </li>
+<li>DEMUX </li>
+<li>Decoder</li>
 <li>Encoder</li>
 </ul>
 </li>
 <li>
-<p>IC</p>
+<p>IC-7400 Series</p>
 
 <ul>
 <li>7400</li>
-<li>741G00</li>
 <li>7401</li>
 <li>7402</li>
-<li>741G02</li>
 <li>7403</li>
-<li>741G03</li>
 <li>7404</li>
-<li>741G04</li>
 <li>7405</li>
-<li>741G05</li>
 <li>7408</li>
-<li>741G08</li>
 <li>7410</li>
 <li>7411</li>
-<li>7442</li>
-<li>7443</li>
-<li>7444</li>
+<li>7412</li>
+<li>7413</li>
+<li>7415</li>
+<li>7416</li>
+<li>7417</li>
+<li>7418</li>
+<li>7419</li>
+<li>7420</li>
+<li>7421</li>
+<li>7422</li>
+<li>7424</li>
+<li>7425</li>
+<li>7426</li>
+<li>7427</li>
+<li>7428</li>
+<li>7430</li>
+<li>7432</li>
+<li>7433</li>
+<li>7437</li>
+<li>7440</li>
 <li>7451</li>
 <li>7454</li>
 <li>7455</li>
 <li>7458</li>
+<li>7464</li>
+<li>7486</li>
+<li>741G00</li>
+<li>741G02</li>
+<li>741G03</li>
+<li>741G04</li>
+<li>741G05</li>
+<li>741G08</li>
+<li>7431</li>
+<li>7442</li>
+<li>7443</li>
+<li>7444</li>
+<li>7445</li>
+<li>74133</li>
+<li>74260</li>
+</ul>
+</li>
+<li>
+<p>IC-4000 Series</p>
+
+<ul>
+<li>4000</li>
+<li>4001</li>
+<li>4002</li>
+<li>4011</li>
+<li>4012</li>
+<li>4023</li>
+<li>4025</li>
+<li>4068</li>
+<li>4069</li>
+<li>4070</li>
+<li>4071</li>
+<li>4072</li>
+<li>4073</li>
+<li>4075</li>
+<li>4077</li>
+<li>4078</li>
+<li>4081</li>
+<li>4082</li>
 </ul>
 </li>
 <li>
@@ -177,8 +272,37 @@ This package does not depend on any external library other than pure Python.</p>
 <li>Moore Machine Optimizer</li>
 </ul>
 </li>
-</ul><h2>
-<a name="future-works" class="anchor" href="#future-works"><span class="octicon octicon-link"></span></a>Future Works</h2>
+</ul><p><a></a></p>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>Auto-generated documentation is available for reference at <a href="http://packages.python.org/BinPy/index.html">BinPy docs</a></p>
+
+<p><a></a></p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a name="linux" class="anchor" href="#linux"><span class="octicon octicon-link"></span></a>Linux</h3>
+
+<p>Install with <strong>pip</strong></p>
+
+<pre><code>sudo apt-get install pip setuptools ipython
+sudo pip install https://github.com/BinPy/BinPy/zipball/master
+</code></pre>
+
+<p>Install using <strong>git</strong></p>
+
+<pre><code>sudo apt-get install git setuptools ipython
+git clone https://github.com/BinPy/BinPy.git
+cd BinPy/
+sudo python setup.py install
+</code></pre>
+
+<h2>
+<a name="future-work" class="anchor" href="#future-work"><span class="octicon octicon-link"></span></a>Future Work</h2>
 
 <ul>
 <li>Introduction of all ICs</li>
@@ -186,9 +310,21 @@ This package does not depend on any external library other than pure Python.</p>
 <li>Addition of Microprocessors and Analog Devices</li>
 <li>Graphical representation of the circuit</li>
 <li>...</li>
-</ul>
-      </section>
+</ul><p><a></a></p>
 
+<h2>
+<a name="how-to-contribute" class="anchor" href="#how-to-contribute"><span class="octicon octicon-link"></span></a>How To Contribute</h2>
+
+<ul>
+<li><a href="https://github.com/BinPy/BinPy/issues">Report Bugs and Issues</a></li>
+<li><a href="https://github.com/BinPy/BinPy/issues?page=1&amp;state=open">Solve Bugs and Issues</a></li>
+<li>Write Tutorials, Examples and Documentation</li>
+</ul><p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/mrsud/binpy/trend.png" alt="Bitdeli Badge"></a></p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/BinPy">BinPy</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
