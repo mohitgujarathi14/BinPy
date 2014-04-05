@@ -3297,3 +3297,48 @@ class IC_74155(Base_16pin):
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
+
+######## ICs with 24 pins ###############
+
+class IC_74154(Base_24pin):
+
+    """ 4-Bit Binary Decoder/Demultiplexer http://www.skot9000.com/ttl/datasheets/154.pdf """
+
+    def __init__(self):
+        self.pins = [None, None, None, None, None, None, None, None, None, None, None, None, 0, None, None, None, None, None, 0, 0, 0, 0, 0, 0, 0 ]
+
+    def run(self):
+        
+        output = {}
+                
+        decoder = Decoder(self.pins[20], self.pins[21], self.pins[22], self.pins[23])
+        
+        # Checks if the enable pin E1 or E2 is high    
+        if ( self.pins[18] == 1 or self.pins[19] == 1 ): 
+            output = { 1:1, 2:1 ,3:1, 4:1, 5:1, 6:1, 7:1, 8:1, 9:1, 10:1, 11:1, 13:1, 14:1 ,15:1 ,16:1 ,17:1 }
+        
+        else:
+            output[1] = NOT(decoder.output()[0]).output()
+            output[2] = NOT(decoder.output()[1]).output()
+            output[3] = NOT(decoder.output()[2]).output()
+            output[4] = NOT(decoder.output()[3]).output()
+            output[5] = NOT(decoder.output()[4]).output()
+            output[6] = NOT(decoder.output()[5]).output()
+            output[7] = NOT(decoder.output()[6]).output()
+            output[8] = NOT(decoder.output()[7]).output()
+            output[9] = NOT(decoder.output()[8]).output()
+            output[10] = NOT(decoder.output()[9]).output()
+            output[11] = NOT(decoder.output()[10]).output()
+            output[13] = NOT(decoder.output()[11]).output()
+            output[14] = NOT(decoder.output()[12]).output()
+            output[15] = NOT(decoder.output()[13]).output()
+            output[16] = NOT(decoder.output()[14]).output()
+            output[17] = NOT(decoder.output()[15]).output()
+            
+                    
+        if self.pins[12] == 0 and self.pins[24] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
