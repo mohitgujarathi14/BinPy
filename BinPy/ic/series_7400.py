@@ -1828,6 +1828,109 @@ class IC_741G08(Base_5pin):
 
 ######## IC's with 16 pins #################################
 
+class IC_74148(Base_16pin):
+
+    """ This is an Encoder (8 Data Lines to 3-Line Binary (Octal) ) http://www.skot9000.com/ttl/datasheets/147.pdf """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, None, None, 0, None, 0, 0, 0, 0, None, None, 0 ]
+
+    def run(self):
+        
+        output = {}
+        
+        # All data-inputpins are remapped serially to get them in order.
+        remap_pins = {1: self.pins[10], 2: self.pins[11], 3: self.pins[12], 4: self.pins[13],
+                      5: self.pins[1], 6: self.pins[2], 7: self.pins[3], 8: self.pins[4],
+                      9: self.pins[5] }
+                      
+        Encoders = [ Encoder(1,0,0,0,0,0,0,0),
+                     Encoder(0,1,0,0,0,0,0,0),
+                     Encoder(0,0,1,0,0,0,0,0),
+                     Encoder(0,0,0,1,0,0,0,0),
+                     Encoder(0,0,0,0,1,0,0,0),
+                     Encoder(0,0,0,0,0,1,0,0),
+                     Encoder(0,0,0,0,0,0,1,0),
+                     Encoder(0,0,0,0,0,0,0,1) ]
+        
+        # Checks if the enable pin E1 is high    
+        if ( remap_pins[9] == 1 ): 
+            output = {14:1 ,6:1 ,7:1 ,9:1 ,15:1 }
+        # Checks if all the data-inputpins are high and E1 = 0
+        elif (all ( (remap_pins[i+1] == 1) for i in range(8) ) ):
+            output = output = {14:1 ,6:1 ,7:1 ,9:1 ,15:0 }     
+        else:
+            # checks for the all other pin config of data-inputpins
+            for i in range(8):
+                j = i + 1
+                if (remap_pins[j] == 0 and (all ( (remap_pins[k] == 1) for k in range( j+1,9 ) ) ) ):
+                
+                    output[15] = 1
+                    output[14] = 0
+                    output[6] = NOT(Encoders[i].output()[0]).output()
+                    output[7] = NOT(Encoders[i].output()[1]).output()
+                    output[9] = NOT(Encoders[i].output()[2]).output()                             
+                    
+                    break
+                    
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.") 
+
+class IC_74147(Base_16pin):
+
+    """10-Line to 4-Line Priority Encoder http://www.skot9000.com/ttl/datasheets/147.pdf"""
+
+    def __init__(self):
+        self.pins = [None,0 , 0, 0, 0, 0, None, None, 0, None, 0, 0, 0, 0, None, None, 0 ]
+
+    def run(self):
+        
+        output = {}
+        
+        # All the pins are data-inputpins are remapped serially to get them in order.
+        remap_pins = {1: self.pins[11], 2: self.pins[12], 3: self.pins[13], 4: self.pins[1],
+                      5: self.pins[2], 6: self.pins[3], 7: self.pins[4], 8: self.pins[5],
+                      9: self.pins[10] }
+                      
+        Encoders = [ Encoder(0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                     Encoder(0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0),
+                     Encoder(0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0),
+                     Encoder(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0),
+                     Encoder(0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0),
+                     Encoder(0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0),
+                     Encoder(0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0),
+                     Encoder(0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0),
+                     Encoder(0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0) ]
+                  
+        
+        # Checks if all the data-inputpins are high
+        if (all ( (remap_pins[i+1] == 1) for i in range(9) ) ):
+            output = {14:1 ,6:1 ,7:1 ,9:1} 
+        else:
+            # checks for all other pin config 
+            for i in range(9):
+                j = i + 1
+                if (remap_pins[j] == 0 and (all ( (remap_pins[k] == 1) for k in range( j+1,10 ) ) ) ):
+                
+                    output[14] = NOT(Encoders[i].output()[0]).output()
+                    output[6] = NOT(Encoders[i].output()[1]).output()
+                    output[7] = NOT(Encoders[i].output()[2]).output()
+                    output[9] = NOT(Encoders[i].output()[3]).output()                             
+                    
+                    break            
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+ 
+
 class IC_7431(Base_16pin):
 
     """
